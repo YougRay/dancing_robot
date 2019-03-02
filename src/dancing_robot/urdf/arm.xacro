@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<robot name="car" xmlns:xacro="http://www.ros.org/wiki/xacro">
+<xacro:macro name="part" params="prefix mom son size z">
+ <link name="${prefix}_part">
+  <visual>
+   <geometry>
+    <box size="${size} 0.04 0.04"/>
+    <material name="black">
+      <color rgba="0 0 0 1"/>
+    </material>
+   </geometry>
+   <origin rpy="0 1.57075 0" xyz="0 0 ${(size)/2}"/>
+  </visual>
+ </link>
+ <joint name="${prefix}_joint" type="continuous">
+  <axis xyz="1 0 0"/>
+  <parent link="${mom}"/>
+  <child link="${son}_part"/>
+  <origin xyz="0 0 ${z}"/>
+ </joint>
+</xacro:macro>
+
+
+<link name="base">
+  <visual>
+   <geometry>
+    <box size="0.06 0.06 0.02"/>
+    <material name="black">
+      <color rgba="0 0 0 1"/>
+    </material>
+   </geometry>
+   <origin rpy="0 0 0" xyz="0 0 0"/>
+  </visual>
+</link>
+
+<xacro:part prefix="first" mom="base" son="first" size="0.06" z="0.01"/>
+<xacro:part prefix="second" mom="first_part" son="second" size="0.06" z="0.06"/>
+<xacro:part prefix="third" mom="second_part" son="third" size="0.06" z="0.06"/>
+</robot>

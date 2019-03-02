@@ -1,0 +1,192 @@
+<robot name="magician" xmlns:xacro="http://www.ros.org/wiki/xacro">
+<xacro:macro name="default_inertial" params="mass">
+    <inertial>
+      <mass value="${mass}" />
+      <inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0" />
+    </inertial>
+</xacro:macro>
+
+     <!--trans-->
+<xacro:macro name="trans" params="prefix joint_name">
+  <transmission name="${prefix}_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <actuator name="${prefix}_motor">
+      <mechanicalReduction>1</mechanicalReduction>
+    <hardwareInterface>PositionJointInterface</hardwareInterface>
+    </actuator>
+    <joint name="${joint_name}">
+      <hardwareInterface>PositionJointInterface</hardwareInterface>
+    </joint>
+  </transmission>
+</xacro:macro>
+
+    <!-- Defining the colors used in this robot -->
+    <material name="Black">
+        <color rgba="0 0 0 1"/>
+    </material>
+
+    <material name="White">
+        <color rgba="1 1 1 1"/>
+    </material>
+
+    <material name="Grey">
+        <color rgba="0.9 0.9 0.9 1"/>
+    </material>
+
+    <!--  -->
+    <link name="base_link">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://magician/meshes/base_link.STL"/>
+            </geometry>
+            <material name="White"/>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://magician/meshes/base_link.STL"/>
+            </geometry>
+        </collision>
+     <xacro:default_inertial mass="0.1"/>
+    </link>
+
+    <joint name="joint_1" type ="revolute">
+        <origin xyz="0 0 0.024" rpy="0 0 0"/>
+        <parent link="base_link"/>
+        <child link="link_1"/>
+        <axis xyz="0 0 1"/>
+        <limit effort="150.0" lower="-3.14159265" upper="3.14159265" velocity="3.15"/>
+    </joint>
+
+    <link name="link_1">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://magician/meshes/link_1.dae"/>
+            </geometry>
+            <!--material name="White"/-->
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://magician/meshes/link_1.STL"/>
+            </geometry>
+        </collision>
+<xacro:default_inertial mass="0.1"/>
+    </link>
+
+    
+    <joint name="joint_2" type="revolute">
+        <origin xyz="-0.01175 0 0.114" rpy="1.570796325 0 -1.570796325"/>
+        <parent link="link_1"/>
+        <child link="link_2"/>
+        <axis xyz="0 0 1"/>
+        <limit effort="150.0" lower="0" upper="1.570796325" velocity="3.15"/>
+    </joint>
+
+    <link name="link_2">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://magician/meshes/link_2.dae"/>
+            </geometry>
+            <!--material name="Black"/-->
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://magician/meshes/link_2.STL"/>
+            </geometry>
+        </collision>
+<xacro:default_inertial mass="0.1"/>
+    </link>
+    
+    <joint name="joint_5" type ="revolute">
+        <origin xyz="0.02699 0.13228 -0.01175" rpy="0 3.14159265 0"/>
+        <parent link="link_2"/>
+        <child link="link_5"/>
+        <axis xyz="0 0 1"/>
+        <limit effort="150.0" lower="0" upper="1.570796325" velocity="3.15"/>
+    </joint>
+
+    <link name="link_5">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://magician/meshes/link_5.dae"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://magician/meshes/link_5.dae"/>
+            </geometry>
+        </collision>
+<xacro:default_inertial mass="0.1"/>
+    </link>
+
+    <joint name="joint_6" type ="fixed">
+        <origin xyz="0.07431 -0.12684 0.0" rpy="0 3.14159265 0"/>
+        <parent link="link_5"/>
+        <child link="link_6"/>
+        <!--axis xyz="0 0 1"/-->
+        <!--limit effort="150.0" lower="-3.14159265" upper="3.14159265" velocity="3.15"/-->
+
+    </joint>
+
+    <link name="link_6">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://magician/meshes/link_6.STL"/>
+            </geometry>
+            <material name="Grey"/>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://magician/meshes/link_6.STL"/>
+            </geometry>
+        </collision>
+<xacro:default_inertial mass="0.1"/>
+    </link>
+
+    <!--dummy joint-->
+    <joint name="joint_7" type ="fixed">
+        <origin xyz="-0.0328 0.02871 0" rpy="0 3.14159265 0"/>
+        <parent link="link_6"/>
+        <child link="link_7"/>
+        <!--axis xyz="0 0 1"/-->
+        <!--limit effort="150.0" lower="-3.14159265" upper="3.14159265" velocity="3.15"/-->  
+    </joint>
+
+    <link name="link_7">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://magician/meshes/link_7.STL"/>
+            </geometry>
+            <material name="Black"/>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://magician/meshes/link_7.STL"/>
+            </geometry>
+        </collision>
+     <xacro:default_inertial mass="0.1"/>
+    </link>
+<xacro:trans prefix="first" joint_name="joint_1"/>
+<xacro:trans prefix="second" joint_name="joint_2"/>
+<xacro:trans prefix="third" joint_name="joint_5"/>
+
+  <!-- Gazebo plugin for ROS Control -->
+<gazebo>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+      <robotNamespace>/arm</robotNamespace>
+    </plugin>
+</gazebo>
+    
+
+</robot>  
